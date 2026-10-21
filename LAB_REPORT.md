@@ -20,10 +20,13 @@ After completing the project, the student can demonstrate a basic NLP pipeline i
 Sentiment analysis is an NLP task used to identify the opinion or emotional polarity expressed in text. Businesses can analyze customer reviews to understand whether feedback is positive, negative, or neutral.
 
 This project uses:
-- **Text normalization:** converts text to lowercase and removes punctuation.
-- **TF-IDF:** represents text numerically according to the importance of words and word combinations in the dataset.
-- **Logistic Regression:** learns patterns from labeled examples and predicts a sentiment class.
-- **Model evaluation:** a held-out test split is used to calculate accuracy and a classification report.
+- **Character-level TF-IDF:** represents text numerically using character sequences.
+- **Linear SVM:** learns to classify reviews as Positive, Negative, or Neutral. Its probability estimates are calibrated for the application interface.
+- **Hyperparameter selection:** five-fold cross-validation is performed on the training split.
+- **Model evaluation:** a stratified held-out split is used to calculate accuracy, macro F1, per-class precision and recall, and a confusion matrix.
+- **Batch inference:** a CSV upload can be analyzed and downloaded with predictions and confidence scores.
+
+The bundled UCI dataset contains 3,000 labeled review sentences from Amazon, IMDb, and Yelp, with positive and negative labels. Since the source dataset has no neutral class, this project includes a separate set of 61 manually curated factual review examples for the Neutral class. Results for Neutral should be interpreted cautiously because this class has fewer training examples.
 
 ## B.1 Software Code Written by Student
 The complete source code is provided in `app.py` and `sentiment_model.py` in the project folder.
@@ -44,17 +47,18 @@ The actual prediction and probability scores are displayed in the running applic
 1. NLP allows computers to process and classify human language.
 2. Text must be converted into numerical features before it can be used by a traditional machine-learning classifier.
 3. TF-IDF gives greater weight to terms that are informative within the dataset.
-4. Logistic Regression can be used for multi-class text classification.
+4. A linear Support Vector Machine can classify text using numeric TF-IDF features.
 5. A held-out test set provides an estimate of model performance on unseen examples.
-6. A small dataset limits generalization, so predictions can be incorrect for new or ambiguous reviews.
+6. The 3,000 UCI examples cover three review domains and provide Positive/Negative labels.
+7. The Neutral class uses 61 manually curated factual examples and is less representative.
 
 ## B.4 Conclusion
-The Smart Review Sentiment Analyzer was developed using Python, TF-IDF, Logistic Regression, and Streamlit. It demonstrates a basic NLP workflow by accepting review text and predicting whether its sentiment is Positive, Negative, or Neutral. The project helped demonstrate text preprocessing, feature extraction, classification, and evaluation.
+The Smart Review Sentiment Analyzer was developed using Python, character-level TF-IDF, a calibrated linear SVM, and Streamlit. It predicts Positive, Negative, or Neutral sentiment for review text and supports batch CSV analysis. The project demonstrates feature extraction, classification, evaluation, and downloadable inference results.
 
 ## Viva Questions
 1. **What is NLP?** Natural Language Processing is a field of AI that enables computers to process human language.
 2. **What is sentiment analysis?** It identifies the opinion or sentiment expressed in text.
 3. **What is TF-IDF?** It is a method for converting text into numerical features based on term frequency and inverse document frequency.
-4. **Why is Logistic Regression used?** It is a machine-learning classifier that can predict classes from numerical features.
+4. **Why is a linear SVM used?** It learns class boundaries between numeric text features and performs well on sparse, high-dimensional TF-IDF data.
 5. **Why split data into training and testing sets?** To estimate how well the model performs on examples it did not train on.
 6. **What is a limitation of this project?** The dataset is small and predictions may not generalize to real-world reviews.
