@@ -16,7 +16,12 @@ model, vectorizer, accuracy, report = load_model()
 left, right = st.columns([2, 1])
 with left:
     st.subheader("Analyze a review")
-    review = st.text_area("Enter a product review:", placeholder="Example: The product quality is excellent and delivery was fast.", height=130)
+    review = st.text_area(
+        "Enter a product review:",
+        placeholder="Example: The product quality is excellent and delivery was fast.",
+        height=130,
+        key="review",
+    )
     if st.button("Analyze Sentiment", type="primary"):
         if not review.strip():
             st.warning("Please enter a review first.")
@@ -35,10 +40,17 @@ with right:
         "Negative": "Very poor quality. It stopped working and customer service was terrible.",
         "Neutral": "The package arrived today. The product is black and has two buttons."
     }
+
+    def load_sample(text):
+        st.session_state["review"] = text
+
     for name, text in samples.items():
-        if st.button(f"Load {name} example", key=name):
-            st.session_state["review"] = text
-            st.rerun()
+        st.button(
+            f"Load {name} example",
+            key=f"load_{name}",
+            on_click=load_sample,
+            args=(text,),
+        )
 
 st.divider()
 st.subheader("Model information")
